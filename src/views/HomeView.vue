@@ -1,16 +1,14 @@
 <script setup></script>
 
 <template>
-  <main>
-    <h2>Ref</h2>
-    <p ref="p">{{ ninjaOne.name }} - {{ ninjaOne.age }}</p>
-    <button @click="updateNinjaOne">Update Ninja 1</button>
+  <main class="home">
+    <input type="text" v-model="search" />
+    <p>search term - {{ search }}</p>
+    <div v-for="name in matchingNames" :key="name">
+      {{ name }}
+    </div>
 
-    <h2>Reactive</h2>
-    <p>{{ ninjaTwo.name }} - {{ ninjaTwo.age }}</p>
-    <button @click="updateNinjaTwo">Update Ninja 2</button>
-
-    <p>{{ name }}</p>
+    <button @click="handleClick">Stop watchers</button>
   </main>
 </template>
 
@@ -18,32 +16,37 @@
 // Option API's data are reactive, but in composition api, we need to use 'ref' to make data reactive
 
 // Composition API
-import { ref, reactive } from 'vue';
+import { ref, computed, watch, watchEffect } from 'vue';
 
 export default {
-  name: 'Home',
+  name: 'HomeView',
 
   setup() {
-    const ninjaOne = ref({ name: 'mario', age: 30 });
+    const search = ref('');
+    const names = ref(['mario', 'yoshi', 'luigi', 'toad', 'bowser', 'koopa', 'peach']);
 
-    // Can not use primitive type value in reactive
-    const ninjaTwo = reactive({ name: 'luigi', age: 35 });
+    // Will fire whenever the parameter value changed
+    const stopWatch = watch(search, () => {
+      console.log('watch function fired');
+    });
 
-    const updateNinjaOne = () => {
-      ninjaOne.value.age++;
+    // Run initially when the component first load, or run when any dependency changed
+    // In the case,search.value is the dependency
+    const stopEffect = watchEffect(() => {
+      console.log('watch effect function fired', search.value);
+    });
+
+    // Stop the watchers by invoke them!
+    const handleClick = () => {
+      stopWatch();
+      stopEffect();
     };
 
-    const updateNinjaTwo = () => {
-      ninjaTwo.age++;
-    };
+    const matchingNames = computed(() => names.value.filter((name) => name.includes(search.value)));
 
-    return { ninjaOne, ninjaTwo, name, updateNinjaOne, updateNinjaTwo };
+    return { names, search, matchingNames, handleClick };
   },
 };
 </script>
 
-<style scoped>
-.test {
-  color: red;
-}
-</style>
+<style scoped></style>
