@@ -13,7 +13,7 @@ import SinglePost from './SinglePost.vue';
 export default {
   components: { SinglePost },
   props: ['posts'],
-  setup(props) {
+  setup() {
     // Lifecycle hooks in composition api
     onMounted(() => {
       console.log('component mounted');

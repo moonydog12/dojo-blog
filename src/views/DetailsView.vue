@@ -11,7 +11,7 @@
 
 <script>
 import getPost from '../composables/getPost';
-import Spinner from '../components/Spinner.vue';
+import Spinner from '../components/SpinnerComp.vue';
 
 export default {
   props: ['id'],
@@ -29,7 +29,6 @@ export default {
   max-width: 1200px;
 
   p {
-    font-size: 30px;
     color: #444;
     line-height: 1.5em;
     margin-top: 40px;

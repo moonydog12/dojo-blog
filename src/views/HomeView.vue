@@ -15,7 +15,7 @@
 
 <script>
 import PostList from '../components/PostList.vue';
-import Spinner from '../components/Spinner.vue';
+import Spinner from '../components/SpinnerComp.vue';
 import getPosts from '../composables/getPosts';
 
 export default {
@@ -32,4 +32,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.home {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+}
+</style>

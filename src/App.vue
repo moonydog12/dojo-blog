@@ -9,4 +9,9 @@ import { RouterLink, RouterView } from 'vue-router';
   <RouterView />
 </template>
 
-<style scoped></style>
+<style>
+#app {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #2c3e50;
+}
+</style>
