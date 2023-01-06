@@ -2,49 +2,39 @@
 
 <template>
   <main class="home">
-    <input type="text" v-model="search" />
-    <p>search term - {{ search }}</p>
-    <div v-for="name in matchingNames" :key="name">
-      {{ name }}
-    </div>
-
-    <button @click="handleClick">Stop watchers</button>
+    <h1>home</h1>
+    <PostList v-if="showPosts" :posts="posts" />
+    <button @click="showPosts = !showPosts">toggle posts</button>
+    <button @click="posts.pop()">delete a post</button>
   </main>
 </template>
 
 <script>
-// Option API's data are reactive, but in composition api, we need to use 'ref' to make data reactive
-
-// Composition API
-import { ref, computed, watch, watchEffect } from 'vue';
+import PostList from '../components/PostList.vue';
+import { ref } from 'vue';
 
 export default {
   name: 'HomeView',
 
+  components: { PostList },
+
   setup() {
-    const search = ref('');
-    const names = ref(['mario', 'yoshi', 'luigi', 'toad', 'bowser', 'koopa', 'peach']);
+    const posts = ref([
+      {
+        title: 'Welcome to the blog',
+        body: 'My heart a stereo, it beats for you just listen close',
+        id: 1,
+      },
+      {
+        title: 'Top 5 CSS tips',
+        body: 'qu labore, veritatis earum minima quos eius. Esse nulla et assumenda natus dolores, inventore optio excepturi sed, alias facilis rerum ullam. Aliquam pariatur consectetur eaque?',
+        id: 2,
+      },
+    ]);
 
-    // Will fire whenever the parameter value changed
-    const stopWatch = watch(search, () => {
-      console.log('watch function fired');
-    });
+    const showPosts = ref(true);
 
-    // Run initially when the component first load, or run when any dependency changed
-    // In the case,search.value is the dependency
-    const stopEffect = watchEffect(() => {
-      console.log('watch effect function fired', search.value);
-    });
-
-    // Stop the watchers by invoke them!
-    const handleClick = () => {
-      stopWatch();
-      stopEffect();
-    };
-
-    const matchingNames = computed(() => names.value.filter((name) => name.includes(search.value)));
-
-    return { names, search, matchingNames, handleClick };
+    return { posts, showPosts };
   },
 };
 </script>
