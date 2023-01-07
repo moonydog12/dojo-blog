@@ -18,12 +18,16 @@
 
 <script>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
 export default {
   setup() {
     const title = ref('');
     const body = ref('');
     const tag = ref('');
     const tags = ref([]);
+
+    const router = useRouter();
 
     const handleKeydown = () => {
       // Guard clause
@@ -51,6 +55,8 @@ export default {
       } catch (err) {
         console.log(err);
       }
+
+      router.push({ name: 'home' });
     };
 
     return { title, body, tag, tags, handleKeydown, handleSubmit };

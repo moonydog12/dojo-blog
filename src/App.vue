@@ -1,13 +1,16 @@
 <script setup>
+import NavigationBar from './components/NavigationBar.vue';
 import { RouterLink, RouterView } from 'vue-router';
 </script>
 
 <template>
-  <nav>
-    <RouterLink to="/">Home</RouterLink>
-  </nav>
+  <NavigationBar />
   <RouterView />
 </template>
+
+<script>
+export default {};
+</script>
 
 <style>
 #app {
