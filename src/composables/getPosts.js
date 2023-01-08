@@ -7,7 +7,7 @@ const getPosts = function () {
 
   const load = async () => {
     try {
-      const res = await projectDojo.collection('posts').get();
+      const res = await projectDojo.collection('posts').orderBy('createdAt', 'desc').get();
       posts.value = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     } catch (err) {
       error.value = err.message;

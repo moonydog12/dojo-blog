@@ -19,6 +19,7 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { projectDojo, timestamp } from '../firebase/config';
 
 export default {
   setup() {
@@ -44,17 +45,15 @@ export default {
 
     // inside the handler, make a post request to add  post to db
     const handleSubmit = async () => {
-      const post = { title: title.value, body: body.value, tags: tags.value };
+      const post = {
+        title: title.value,
+        body: body.value,
+        tags: tags.value,
 
-      try {
-        await fetch(' http://localhost:3000/posts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(post),
-        });
-      } catch (err) {
-        console.log(err);
-      }
+        // Create a timestamp in firebase
+        createdAt: timestamp(),
+      };
+      const res = await projectDojo.collection('posts').add(post);
 
       router.push({ name: 'home' });
     };
