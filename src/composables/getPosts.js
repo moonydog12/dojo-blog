@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { projectDojo } from '../firebase/config';
 
 const getPosts = function () {
   const posts = ref([]);
@@ -6,11 +7,8 @@ const getPosts = function () {
 
   const load = async () => {
     try {
-      let res = await fetch('http://localhost:3000/posts');
-      if (!res.ok) {
-        throw Error('no data available');
-      }
-      posts.value = await res.json();
+      const res = await projectDojo.collection('posts').get();
+      posts.value = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     } catch (err) {
       error.value = err.message;
       console.log(error.value);
